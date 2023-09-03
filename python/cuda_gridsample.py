@@ -1,9 +1,6 @@
-from torch.utils.cpp_extension import load
 import torch
 from pkg_resources import parse_version
-
-gridsample_grad2 = load(name='gridsample_grad2', sources=['gridsample_cuda.cpp', 'gridsample_cuda.cu'], verbose=True)
-
+import gridsample_grad2.gridsample_grad2 as gridsample_grad2
 def grid_sample_2d(input, grid, padding_mode='zeros', align_corners=True):
     assert padding_mode in ['zeros', 'border']
     return _GridSample2dForward.apply(input, grid, padding_mode, align_corners)
@@ -41,7 +38,7 @@ class _GridSample2dForward(torch.autograd.Function):
 class _GridSample2dBackward(torch.autograd.Function):
     @staticmethod
     def forward(ctx, grad_output, input, grid, padding_mode=0, align_corners=True):
-        op = torch._C._jit_get_operation('aten::grid_sampler_2d_backward')
+        op, _ = torch._C._jit_get_operation('aten::grid_sampler_2d_backward')
         if _use_pytorch_1_11_api:
             output_mask = (ctx.needs_input_grad[1], ctx.needs_input_grad[2])
             grad_input, grad_grid = op(grad_output, input, grid, 0, padding_mode, align_corners, output_mask)
@@ -94,7 +91,7 @@ class _GridSample3dForward(torch.autograd.Function):
 class _GridSample3dBackward(torch.autograd.Function):
     @staticmethod
     def forward(ctx, grad_output, input, grid, padding_mode=0, align_corners=True):
-        op = torch._C._jit_get_operation('aten::grid_sampler_3d_backward')
+        op, _ = torch._C._jit_get_operation('aten::grid_sampler_3d_backward')
         if _use_pytorch_1_11_api:
             output_mask = (ctx.needs_input_grad[1], ctx.needs_input_grad[2])
             grad_input, grad_grid = op(grad_output, input, grid, 0, padding_mode, align_corners, output_mask)

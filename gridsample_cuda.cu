@@ -574,7 +574,7 @@ std::vector<torch::Tensor> grid_sample2d_cuda_grad2(
                 static_cast<GridSamplerPadding>(padding_mode),
                 align_corners,
                 static_cast<int>(grad_input.numel()));
-            C10_CUDA_KERNEL_LAUNCH_CHECK();
+//            C10_CUDA_KERNEL_LAUNCH_CHECK();
           } else {
             grid_sampler_2d_grad2_kernel<scalar_t>
               <<<GET_BLOCKS(count, 256), 256, 0, at::cuda::getCurrentCUDAStream()>>>(
@@ -590,7 +590,7 @@ std::vector<torch::Tensor> grid_sample2d_cuda_grad2(
                 static_cast<GridSamplerPadding>(padding_mode),
                 align_corners,
                 grad_input.numel());
-            C10_CUDA_KERNEL_LAUNCH_CHECK();
+//            C10_CUDA_KERNEL_LAUNCH_CHECK();
           }
         });
     }
@@ -641,7 +641,7 @@ std::vector<torch::Tensor> grid_sample3d_cuda_grad2(
                 static_cast<GridSamplerPadding>(padding_mode),
                 align_corners,
                 static_cast<int>(grad_input.numel()));
-            C10_CUDA_KERNEL_LAUNCH_CHECK();
+//            C10_CUDA_KERNEL_LAUNCH_CHECK();
           } else {
             grid_sampler_3d_grad2_kernel<scalar_t>
               <<<GET_BLOCKS(count, 256), 256, 0, at::cuda::getCurrentCUDAStream()>>>(
@@ -657,7 +657,7 @@ std::vector<torch::Tensor> grid_sample3d_cuda_grad2(
                 static_cast<GridSamplerPadding>(padding_mode),
                 align_corners,
                 grad_input.numel());
-            C10_CUDA_KERNEL_LAUNCH_CHECK();
+//            C10_CUDA_KERNEL_LAUNCH_CHECK();
           }
         });
     }

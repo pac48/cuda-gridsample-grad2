@@ -50,7 +50,7 @@ std::vector<torch::Tensor> grid_sample3d_grad2(
 }
 
 
-PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
+PYBIND11_MODULE(gridsample_grad2, m) {
   m.def("grad2_2d", &grid_sample2d_grad2, "grid_sample2d second derivative");
   m.def("grad2_3d", &grid_sample3d_grad2, "grid_sample3d second derivative");
 }
